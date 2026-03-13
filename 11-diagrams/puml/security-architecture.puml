@@ -1,0 +1,124 @@
+@startuml security-architecture
+!theme plain
+skinparam shadowing false
+skinparam componentStyle rectangle
+left to right direction
+
+title Security Architecture - Contract-Driven Microservices Runtime
+
+actor "Retail App" as Retail
+actor "Corporate ERP" as Corporate
+actor "TPP Client" as Tpp
+
+rectangle "Edge Security" {
+  component "API Gateway\n(TLS, WAF, Rate Limit)" as Gateway
+  component "Ingress Controller\n(Istio/Kong)" as Ingress
+}
+
+rectangle "Identity and AAA" {
+  component "Keycloak Cluster\n(OAuth2.1/OIDC)" as Keycloak
+  database "LDAP/AD Federation" as Ldap
+  component "JWKS Cache" as JwksCache
+  database "DPoP Replay Store\n(Nonce/JTI TTL)" as DpopStore
+}
+
+rectangle "Service Mesh" {
+  component "Istio Control Plane" as Istio
+  component "Policy Engine\n(AuthorizationPolicy/OPA)" as Policy
+}
+
+rectangle "Protected Service Domain" {
+  component "Consent Authorization Service" as Consent
+  component "Personal Financial Data Service" as PersonalAis
+  component "Business Financial Data Service" as CorporateAis
+  component "Confirmation of Payee Service" as Cop
+
+  component "Payment Context" as PaymentContext
+  component "Customer Context" as CustomerContext
+  component "Loan Context" as LoanContext
+  component "Risk Context" as RiskContext
+  component "Compliance Context" as ComplianceContext
+}
+
+rectangle "Data and Platform" {
+  database "PostgreSQL" as Postgres
+  database "Redis" as Redis
+  queue "Kafka" as Kafka
+  component "Secret Provider\n(Vault/Internal Secrets API)" as Secrets
+  component "OpenTelemetry Collector" as OTel
+  component "Metrics + Logs + Traces" as Obs
+}
+
+Retail --> Gateway : HTTPS + OAuth redirect
+Corporate --> Gateway : mTLS + OAuth client credentials
+Tpp --> Gateway : DPoP bound API calls
+
+Gateway --> Ingress : validated request
+Ingress --> Keycloak : token validation/JWKS
+Keycloak --> Ldap : identity federation
+Ingress --> JwksCache : cached keys
+Ingress --> DpopStore : replay check
+
+Ingress --> Consent : mTLS + JWT + DPoP
+Ingress --> PersonalAis : mTLS + JWT + DPoP
+Ingress --> CorporateAis : mTLS + JWT + DPoP
+Ingress --> Cop : mTLS + JWT + DPoP
+
+Ingress --> PaymentContext : mTLS + JWT + DPoP
+Ingress --> CustomerContext : mTLS + JWT + DPoP
+Ingress --> LoanContext : mTLS + JWT + DPoP
+Ingress --> RiskContext : mTLS + JWT + DPoP
+Ingress --> ComplianceContext : mTLS + JWT + DPoP
+
+Istio --> Ingress : service identity + mTLS certs
+Policy --> Ingress : allow/deny decisions
+
+Consent --> Redis : consent cache/idempotency
+PaymentContext --> Postgres : transactions
+CustomerContext --> Postgres : customer data
+LoanContext --> Postgres : loan data
+RiskContext --> Kafka : risk events
+ComplianceContext --> Kafka : compliance events
+
+Consent --> Secrets
+PersonalAis --> Secrets
+CorporateAis --> Secrets
+Cop --> Secrets
+PaymentContext --> Secrets
+CustomerContext --> Secrets
+LoanContext --> Secrets
+RiskContext --> Secrets
+ComplianceContext --> Secrets
+
+Consent --> OTel
+PersonalAis --> OTel
+CorporateAis --> OTel
+Cop --> OTel
+PaymentContext --> OTel
+CustomerContext --> OTel
+LoanContext --> OTel
+RiskContext --> OTel
+ComplianceContext --> OTel
+OTel --> Obs
+
+note right of Gateway
+- TLS termination
+- WAF and quota
+- Header normalization
+- Interaction ID enforcement
+end note
+
+note right of Ingress
+Protected routes require:
+1) JWT validation
+2) DPoP proof validation
+3) Scope/consent checks
+4) Policy decision
+end note
+
+note bottom of Secrets
+Secrets are runtime-resolved only.
+No real secrets in source or .env files.
+end note
+
+@enduml
