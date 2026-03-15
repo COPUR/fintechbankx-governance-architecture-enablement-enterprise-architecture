@@ -1,0 +1,260 @@
+# Enterprise Banking System
+
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://example.com/repo)
+[![Security](https://img.shields.io/badge/security-zero--trust-green)](docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md)
+[![Architecture](https://img.shields.io/badge/architecture-microservices-blue)](docs/architecture/overview/ARCHITECTURE_CATALOGUE.md)
+[![OAuth 2.1](https://img.shields.io/badge/OAuth-2.1-blue)](docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md)
+[![Istio](https://img.shields.io/badge/service--mesh-Istio-blue)](docs/architecture/adr/ADR-005-istio-service-mesh.md)
+[![Java](https://img.shields.io/badge/Java-23.0.2-orange)](https://openjdk.org/projects/jdk/23/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.6-green)](https://spring.io/projects/spring-boot)
+[![Compliance](https://img.shields.io/badge/compliance-FAPI%20|%20PCI%20DSS%20|%20GDPR-yellow)](docs/compliance)
+## Disclaimer: This project is a **proof of concept** and not intended for production use. It is designed to demonstrate advanced architectural patterns and security practices in modern banking systems.
+This project may not build or compile out of the box due to its complexity and dependencies on specific configurations. It is recommended to use it as a reference for architectural patterns rather than a ready-to-deploy solution.
+
+
+## Enterprise Banking System
+
+The Enterprise Banking System embodies a transformative approach to financial services architecture, engineered with modular microservices that enable institutions to rapidly configure and deploy solutions tailored to their specific market requirements. Built on hexagonal architecture principles and Domain-Driven Design, this platform offers unprecedented flexibility - allowing organizations to selectively implement components ranging from traditional lending operations to cutting-edge Islamic finance modules and CBDC integration.
+
+The system's inherent modularity enables financial institutions to maintain operational agility while ensuring enterprise-grade security and regulatory compliance. Organizations can seamlessly transition from conventional banking operations to specialized services, or deploy hybrid configurations that serve diverse customer segments simultaneously.
+
+## Next-Generation Banking Platform with Zero-Trust Security
+
+The **Enhanced Enterprise Banking System** represents the pinnacle of modern financial services architecture - a **secure microservices platform** built with **zero-trust security**, **OAuth 2.1 authentication**, and **Istio service mesh**. Designed for enterprise banking institutions that demand uncompromising security, regulatory compliance, and operational excellence.
+
+This platform transcends traditional banking systems by implementing a **secure-by-design architecture** that enforces security at every layer, from network communication to application logic, ensuring comprehensive protection of financial data and operations.
+
+## Architecture Overview
+
+![Enhanced Enterprise Banking Security Architecture](docs/images/security/system-architecture-overview.svg)
+
+### System Architecture Diagrams
+
+#### Core System Architecture
+| Diagram | Description | Source |
+|---------|-------------|--------|
+| **[System Architecture Overview](docs/images/security/system-architecture-overview.svg)** | Complete system architecture with all components | [PlantUML Source](docs/puml/system-overview/system-architecture-overview.puml) |
+| **[Bounded Context Map](docs/images/security/bounded-context-map.svg)** | Domain-driven design context relationships | [PlantUML Source](docs/puml/system-overview/bounded-context-map.puml) |
+| **[Technology Stack](docs/images/security/technology-stack-diagram.svg)** | Complete technology stack and dependencies | [PlantUML Source](docs/puml/system-overview/technology-stack-diagram.puml) |
+| **[Deployment Architecture](docs/images/security/deployment-architecture.svg)** | Multi-environment deployment topology | [PlantUML Source](docs/puml/system-overview/deployment-architecture.puml) |
+
+#### Security & Compliance Architecture (PCI-DSS v4.0)
+| Diagram | Description | Source |
+|---------|-------------|--------|
+| **[PCI-DSS v4.0 Compliance Architecture](docs/images/security/pci-dss-v4-compliance-architecture.svg)** | Multi-layer PCI-DSS v4.0 compliance framework | [PlantUML Source](docs/puml/security/pci-dss-v4-compliance-architecture.puml) |
+| **[Service-Level Security](docs/images/security/service-level-security.svg)** | Zero-trust service architecture with FAPI 2.0 | [PlantUML Source](docs/puml/security/service-level-security.puml) |
+| **[Data Protection Layers](docs/images/security/data-protection-layers.svg)** | Comprehensive data protection (PCI-DSS + GDPR) | [PlantUML Source](docs/puml/security/data-protection-layers.puml) |
+| **[Implementation Security Controls](docs/images/security/implementation-security-controls.svg)** | Code-to-runtime security implementation | [PlantUML Source](docs/puml/security/implementation-security-controls.puml) |
+
+#### Bounded Context Architecture
+| Diagram | Description | Source |
+|---------|-------------|--------|
+| **[Loan Context Architecture](docs/images/loan-context-architecture.svg)** | Hexagonal architecture for loan domain | [PlantUML Source](docs/puml/bounded-contexts/loan-context-architecture.puml) |
+| **[Payment Context Architecture](docs/images/payment-context-architecture.svg)** | Real-time payment processing with fraud detection | [PlantUML Source](docs/puml/bounded-contexts/payment-context-architecture.puml) |
+
+#### Transformation As-Is / To-Be and Capability Views
+| Diagram / Artifact | Description | Source |
+|---------|-------------|--------|
+| **[Runtime As-Is](docs/puml/service-mesh/as-is-open-finance-runtime.svg)** | Current Open Finance runtime topology and trust boundaries | [PlantUML Source](docs/puml/service-mesh/as-is-open-finance-runtime.puml) |
+| **[Runtime To-Be (Service Mesh)](docs/puml/service-mesh/to-be-open-finance-service-mesh.svg)** | Target service mesh topology with centralized AAA and policy controls | [PlantUML Source](docs/puml/service-mesh/to-be-open-finance-service-mesh.puml) |
+| **[Organizational As-Is Big Picture](docs/puml/service-mesh/organizational-as-is-big-picture.svg)** | Current operating model, governance, and delivery organization | [PlantUML Source](docs/puml/service-mesh/organizational-as-is-big-picture.puml) |
+| **[Organizational To-Be Big Picture](docs/puml/service-mesh/organizational-to-be-big-picture.svg)** | Target operating model for domain streams + platform teams | [PlantUML Source](docs/puml/service-mesh/organizational-to-be-big-picture.puml) |
+| **[Enterprise Capability Map](docs/puml/service-mesh/enterprise-capability-map.svg)** | Capability landscape and maturity direction | [PlantUML Source](docs/puml/service-mesh/enterprise-capability-map.puml) |
+| **[Service Mesh Transformation Plan](docs/puml/service-mesh/plan.md)** | Implementation phases, sequencing, and delivery controls | [Roadmap](docs/puml/service-mesh/refactor.md) |
+| **[Keycloak AAA Blueprint](docs/puml/service-mesh/keycloak-aaa-blueprint.md)** | Distributed AAA architecture with LDAP and DPoP support | [Implementation Plan](docs/puml/service-mesh/implementation-plan-industrial-standards-tdd-data-examples.md) |
+| **[Organizational Big Picture Doc](docs/architecture/ORGANIZATIONAL_BIG_PICTURE_AS_IS_TO_BE.md)** | Executive-level as-is/to-be architecture narrative | [Capability Map Doc](docs/architecture/ENTERPRISE_CAPABILITY_MAP.md) |
+| **[Repository Clean Coding Review](docs/architecture/REPOSITORY_CLEAN_CODING_REVIEW.md)** | Repository structure assessment and cleanup roadmap | [General Backlog](docs/GENERAL_BACKLOG.md) |
+
+## 🔒 PCI-DSS v4.0 Security Architecture
+
+### Multi-Layer Security Framework
+
+The Enterprise Banking System implements **PCI-DSS v4.0 compliance** through a comprehensive multi-layer security architecture:
+
+#### **Layer 1: Network Security (Requirement 1)**
+- **Web Application Firewall (WAF)** with SQL injection and XSS protection
+- **DDoS protection** and rate limiting
+- **Network microsegmentation** with VLAN isolation
+- **Firewall rules** with quarterly penetration testing
+
+#### **Layer 2: Secure Configurations (Requirement 2)**
+- **Mutual TLS (mTLS)** enforcement for all service-to-service communication  
+- **Zero-trust networking** with service mesh (Istio)
+- **Certificate-based authentication** with automatic rotation
+- **Secure default configurations** across all components
+
+#### **Layer 3: Data Protection (Requirements 3 & 4)**
+- **Cardholder data tokenization** - PAN never stored in clear text
+- **CVV2 never stored** - immediate purge after processing
+- **AES-256-GCM encryption** at rest with AWS KMS key management
+- **TLS 1.3 encryption** in transit with Perfect Forward Secrecy
+- **Field-level encryption** for sensitive data (SSN, account numbers)
+
+#### **Layer 4: Access Control (Requirements 7 & 8)**
+- **OAuth 2.1 + PKCE** authentication with FAPI 2.0 compliance
+- **DPoP token binding** (RFC 9449) for proof-of-possession
+- **Multi-factor authentication** with biometric support
+- **Role-based access control (RBAC)** with principle of least privilege
+- **Administrative access controls** with session management
+
+#### **Layer 5: Monitoring & Logging (Requirements 10 & 11)**
+- **SIEM system** with real-time threat detection
+- **24/7 security monitoring** with automated incident response
+- **File integrity monitoring** and vulnerability scanning
+- **Comprehensive audit logging** with tamper-proof storage
+
+### FAPI 2.0 Financial-Grade API Security
+
+| Security Control | Implementation | Standard |
+|------------------|----------------|----------|
+| **Token Binding** | DPoP proof validation (RFC 9449) | FAPI 2.0 |
+| **Mutual TLS** | Certificate-based client authentication | FAPI 2.0 |
+| **PKCE** | Proof Key for Code Exchange | OAuth 2.1 |
+| **Request Signing** | JWS request object signing | FAPI 2.0 |
+| **Scope Enforcement** | Fine-grained permission validation | FAPI 2.0 |
+
+### Core Design Principles
+
+- **Zero-Trust Security**: Never trust, always verify with mTLS everywhere
+- **Defense in Depth**: Multiple security layers with overlapping controls
+- **Security by Design**: Security embedded in architecture from inception
+- **Continuous Compliance**: Automated compliance validation and reporting
+- **Domain-Driven Design**: Clean separation of business domains and concerns  
+- **Hexagonal Architecture**: Pure domain logic with infrastructure abstraction
+- **FAPI 2.0 Compliance**: Financial-grade API security standards
+- **BIAN Alignment**: Banking Industry Architecture Network compliance
+- **Cloud-Native**: Kubernetes-first design with service mesh security
+
+### Enterprise Architecture Capabilities
+
+| Architectural Component | Modular Implementation | Production Status |
+|-------------------------|------------------------|-------------------|
+| **Zero-Trust Security Architecture** | Configurable mTLS encryption with service-mesh integration | Production Ready |
+| **Identity & Access Management** | Modular OAuth 2.1 with pluggable Keycloak FAPI compliance | Production Ready |
+| **Service Mesh Orchestration** | Flexible Istio-based traffic management and security policies | Production Ready |
+| **Regulatory Compliance Framework** | Adaptable PCI DSS, SOX, GDPR, and FAPI compliance modules | Production Ready |
+| **Domain-Driven Microservices** | 6 independent bounded contexts with hexagonal architecture | Production Ready |
+| **Islamic Finance Integration** | Pluggable Sharia-compliant financial instrument modules | Production Ready |
+
+## Quick Start
+
+### Prerequisites
+
+- **Java 23.0.2** (OpenJDK)
+
+### Local Development
+
+```bash
+# 1. Clone the repository
+git clone https://example.com/repo.git
+cd enterprise-loan-management-system
+
+# 2. Build the application
+./gradlew clean bootJar
+
+# 3. Configure runtime via environment variables
+# (See .env.template for non-secret runtime flags only)
+
+# 4. Provision real secret material at runtime (never in .env/source)
+# POST /internal/v1/system/secrets
+# (stores masked/hash-only records in DB)
+
+# 5. (Optional) Start local infrastructure dependencies with Docker
+docker-compose -f docker-compose.yml up -d postgres redis keycloak
+
+# 6. Run the application
+java -jar build/libs/*.jar
+```
+ 
+## Secret Handling Policy
+
+- Do not store real secrets in local `.env` or `.env.local` files.
+- Do not hardcode secrets in source code, test fixtures, or OpenAPI examples.
+- Use runtime-injected secrets only:
+  - `OAUTH_CLIENT_SECRET_FILE` (preferred secret-file mount)
+  - `OAUTH_CLIENT_SECRET` (orchestrator/Vault injected environment variable)
+- Provision real secret values only through runtime API:
+  - `POST /internal/v1/system/secrets`
+- Persist secret material as masked + hashed records; never expose raw values in API responses.
+- Apply data-at-rest controls for secret storage:
+  - encrypted database volumes/backups,
+  - least-privilege DB access,
+  - audit trails for secret mutation.
+- Keep secret references (no values) in:
+  - `security/secrets/secret-references.yaml`
+
+### Note
+
+Infrastructure, deployment, and CI/CD assets have been removed or redacted to keep this repository environment-agnostic.
+
+## Documentation
+
+### Architecture Documentation
+
+| Document | Description | Category |
+|----------|-------------|----------|
+| **[Architecture Catalogue](docs/architecture/overview/ARCHITECTURE_CATALOGUE.md)** | **Complete system architecture overview** | **Primary** |
+| **[Diagram Reference Index](docs/architecture/DIAGRAM_REFERENCE_INDEX.md)** | **Complete diagram and PlantUML reference** | **Primary** |
+| **[Organizational As-Is / To-Be](docs/architecture/ORGANIZATIONAL_BIG_PICTURE_AS_IS_TO_BE.md)** | **Operating model transformation and governance target state** | **Primary** |
+| **[Enterprise Capability Map](docs/architecture/ENTERPRISE_CAPABILITY_MAP.md)** | **Capability model, maturity targets, and ownership mapping** | **Primary** |
+| **[Repository Clean Coding Review](docs/architecture/REPOSITORY_CLEAN_CODING_REVIEW.md)** | **Repository structure audit and reorganization roadmap** | **Primary** |
+| **[Repository Structure Policy](docs/architecture/REPOSITORY_STRUCTURE_POLICY.md)** | **Mandatory repository structure and change-control policy** | **Primary** |
+| **[Module Ownership Map](docs/architecture/MODULE_OWNERSHIP_MAP.md)** | **Ownership matrix for contexts, platforms, and governance paths** | **Primary** |
+| **[Wave B Legacy Root Rationalization](docs/architecture/WAVE_B_LEGACY_ROOT_RATIONALIZATION_PLAN.md)** | **Deprecation and migration plan for duplicate/legacy roots** | **Primary** |
+| **[General Backlog](docs/GENERAL_BACKLOG.md)** | **Cross-stream backlog aligned to architecture transformation** | **Primary** |
+| [Secure Microservices Architecture](docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md) | Zero-trust security implementation | Architecture |
+| [ADR-004: OAuth 2.1](docs/architecture/adr/ADR-004-oauth21-authentication.md) | Authentication architecture decisions | Decisions |
+| [ADR-005: Istio Service Mesh](docs/architecture/adr/ADR-005-istio-service-mesh.md) | Service mesh implementation | Decisions |
+| [ADR-006: Zero-Trust Security](docs/architecture/adr/ADR-006-zero-trust-security.md) | Security architecture decisions | Decisions |
+| **[ADR-010: Active-Active Architecture](docs/architecture/decisions/ADR-010-active-active-architecture.md)** | **Multi-region 99.999% availability** | **Enterprise** |
+| **[ADR-011: Multi-Entity Banking](docs/architecture/decisions/ADR-011-multi-entity-banking-architecture.md)** | **Multi-jurisdictional compliance** | **Enterprise** |
+
+### Deployment & Operations
+
+Deployment and infrastructure guides are intentionally omitted from this public-facing repository.
+
+### Security & Compliance
+
+| Document | Description | Category |
+|----------|-------------|----------|
+| [Security Architecture](docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md) | Comprehensive security implementation | Security |
+| [OAuth 2.1 Integration](docs/OAuth2.1-Architecture-Guide.md) | Authentication and authorization guide | Security |
+| [FAPI Compliance](docs/enterprisearchitecture/compliance-security/FAPI2_DPOP_ANALYSIS.md) | Financial-grade API compliance | Compliance |
+| [Enterprise Anonymity & Security Standard](docs/enterprisearchitecture/compliance-security/ENTERPRISE_ANONYMITY_SECURITY_STANDARD.md) | Product-grade secrecy, anonymity, and CI enforcement baseline | Compliance |
+
+### Testing & Quality
+
+| Document | Description | Category |
+|----------|-------------|----------|
+| [SIT Integration Report](docs/SIT_INTEGRATION_TEST_REPORT.md) | End-to-end integration testing validation | Testing |
+| [Comprehensive Testing Guide](docs/enterprisearchitecture/implementation-development/README-TESTING.md) | Functional and integration testing strategy | Testing |
+| [TDD Implementation Guide](docs/enterprisearchitecture/implementation-development/TDD_IMPLEMENTATION_GUIDE.md) | Test-driven development summary | Testing |
+| [Testing Strategy](docs/enterprisearchitecture/implementation-development/COMPREHENSIVE_TESTING_STRATEGY.md) | Comprehensive testing strategy | Testing |
+
+### Developer Guides
+
+| Document | Description | Category |
+|----------|-------------|----------|
+| [Development Guide](docs/guides/README-DEV.md) | Local development setup | Development |
+| [Enhanced Enterprise Guide](docs/guides/README-Enhanced-Enterprise.md) | Enterprise features guide | Development |
+| [GraalVM Guide](docs/guides/README-GRAALVM.md) | Native compilation setup | Development |
+| [API Documentation](docs/API_DOCUMENTATION_GUIDE.md) | REST and GraphQL API reference | Development |
+
+---
+
+**Complete Documentation Index: [docs/README.md](docs/README.md)**
+
+---
+
+**Enhanced Enterprise Banking System** - **Secure by Design, Compliant by Default**
+
+---
+
+**Document Version**: 1.0.0  
+**Author**: Alex Sample  
+**LinkedIn**: [linkedin.com/in/acopur](https://linkedin.com/in/acopur)  
+**Classification**: Open Source Technical Documentation
+
+---
+
+*Architected for enterprise-grade modularity and operational excellence. This platform demonstrates sophisticated architectural patterns that enable financial institutions to adapt and scale their operations through configurable, domain-driven microservices. For strategic discussions on enterprise banking architecture and fintech innovation, connect via LinkedIn.*

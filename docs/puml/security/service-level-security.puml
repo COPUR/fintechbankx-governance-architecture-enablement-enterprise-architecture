@@ -1,0 +1,49 @@
+@startuml service-level-security
+!theme plain
+skinparam shadowing false
+skinparam participantPadding 20
+
+title Service-Level Security Flow (JWT + DPoP + mTLS)
+
+actor Client
+participant "API Gateway" as Gateway
+participant "Ingress Security Chain" as SecurityChain
+participant "Keycloak" as Keycloak
+database "DPoP Replay Store" as DpopStore
+participant "Target Service" as Service
+database "Service DB" as Db
+participant "Telemetry" as OTel
+
+Client -> Gateway: HTTPS request\nAuthorization: DPoP <token>\nDPoP: <proof>
+Gateway -> Gateway: WAF + rate limit + header checks
+Gateway -> SecurityChain: Forward request with trace id
+
+SecurityChain -> Keycloak: Validate JWT signature/claims
+Keycloak --> SecurityChain: Token claims + status
+
+SecurityChain -> DpopStore: Validate jti/nonce replay window
+DpopStore --> SecurityChain: Proof accepted
+
+SecurityChain -> SecurityChain: Check scope + consent + audience
+alt Authorization granted
+  SecurityChain -> Service: mTLS upstream request
+  Service -> Db: Read/Write domain data
+  Db --> Service: Domain result
+  Service -> OTel: Emit logs/metrics/traces
+  Service --> Gateway: 2xx/4xx business response
+else Authorization denied
+  SecurityChain -> OTel: Emit security failure event
+  SecurityChain --> Gateway: 401/403 security response
+end
+
+Gateway --> Client: Response with interaction id
+
+note right of SecurityChain
+Mandatory checks:
+- JWT issuer/audience/expiry/signature
+- DPoP htm/htu/iat/jti
+- Scope and consent binding
+- Replay protection
+end note
+
+@enduml
