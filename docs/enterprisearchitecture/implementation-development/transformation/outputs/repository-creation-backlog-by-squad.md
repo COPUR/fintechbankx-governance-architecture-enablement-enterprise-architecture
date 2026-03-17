@@ -53,7 +53,7 @@ Provide a PR-ready backlog to create **new repositories only** (no code migratio
 | REP-ST-001 | Complete | Naming and ownership policy published with `fintechbankx-` repo convention. |
 | REP-ST-002 | Complete | Branch protection baseline executed across `main`, `dev`, `staging`. |
 | REP-ST-003 | Complete | Jenkins template/skeleton propagated through bootstrap seed structure. |
-| REP-ST-004 | In Progress | GitLab parity script generated, but execution blocked (`glab` missing in runtime). |
+| REP-ST-004 | Deferred (Approved) | GitLab parity script generated. Runtime execution intentionally deferred by operating decision to proceed on local Kubernetes/Istio + GitHub path only. |
 | REP-ST-005 | Complete | Standard DDD/hexagonal skeleton seeded to all target repositories. |
 | REP-ST-006 | Complete | Repo created and bootstrapped. |
 | REP-ST-007 | Complete | Repo created and bootstrapped. |
