@@ -12,6 +12,8 @@ Execution update (2026-03-17):
 - **Phase A completed** across enterprise architecture + 13 phase5 repositories.
 - PRs are merged and baseline tag `docs-guardrails-v1` is present in all 14 repositories.
 - Phase B is now the active next execution target.
+- Follow-up enterprise architecture evidence PR is open:
+  - `COPUR/fintechbankx-enterprise-architecture` PR #6 (`BLOCKED`: review + required checks).
 
 ## 2. Scope and Execution Summary
 
@@ -66,6 +68,7 @@ See:
 ## 5. Remaining Risks and Gaps
 
 1. PR lifecycle not yet completed in all repos (merge status depends on review/approvals).  
+   - Current blocker: `fintechbankx-enterprise-architecture` PR #6 requires approvals/checks.
 2. Guardrail enforcement is currently execution-based; CI policy enforcement should be standardized to prevent regression.  
 3. Non-phase5 wave clones (`wave2-ref`, `wave3`, `wave4`, `wave4-catalogs`) may still have doc-policy drift unless synchronized intentionally.
 
