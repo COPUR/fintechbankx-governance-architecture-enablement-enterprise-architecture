@@ -1,7 +1,7 @@
 # Generated Command Pack Summary
 
 Generated at: 2026-03-13T09:40:20.437Z
-Manifest: /Users/alicopur/Documents/GitHub/enterprise-loan-management-system/docs/enterprisearchitecture/implementation-development/transformation/workspace-ddd-eda-2026-03-13/bootstrap/repository-bootstrap-manifest.csv
+Manifest: <source-monorepo-root>/docs/enterprisearchitecture/implementation-development/transformation/workspace-ddd-eda-2026-03-13/bootstrap/repository-bootstrap-manifest.csv
 Repositories: 25
 
 ## Files

@@ -78,4 +78,4 @@ Execution failed for task ':jacocoTestCoverageVerification'.
 
 - Matrix results TSV: `/tmp/enterprise-test-orchestration/results.tsv`
 - Raw logs: `/tmp/enterprise-test-orchestration/*.log`
-- Report file: `/Users/alicopur/Documents/GitHub/enterprise-loan-management-system/docs/enterprisearchitecture/implementation-development/test-reports/FULL_REGRESSION_REPORT_20260222_130741Z.md`
+- Report file: `<source-monorepo-root>/docs/enterprisearchitecture/implementation-development/test-reports/FULL_REGRESSION_REPORT_20260222_130741Z.md`

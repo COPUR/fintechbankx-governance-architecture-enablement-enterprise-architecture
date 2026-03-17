@@ -62,4 +62,4 @@ Error: Could not find or load main class org.gradle.wrapper.GradleWrapperMain\nC
 
 - Matrix results TSV: `/tmp/enterprise-test-orchestration/results.tsv`
 - Raw logs: `/tmp/enterprise-test-orchestration/*.log`
-- This report: `/Users/alicopur/Documents/GitHub/enterprise-loan-management-system/docs/enterprisearchitecture/implementation-development/test-reports/FULL_REGRESSION_REPORT_20260222_130712Z.md`
+- This report: `<source-monorepo-root>/docs/enterprisearchitecture/implementation-development/test-reports/FULL_REGRESSION_REPORT_20260222_130712Z.md`
