@@ -2,122 +2,114 @@
 
 ## Purpose
 
-This document defines the enforceable security architecture baseline for the platform runtime.
+This document defines the security architecture baseline for the Spotify-aligned microservices repository model. It connects the security controls to the ownership model so every repo has a clear accountability path.
 
-- Identity: Keycloak (OAuth2.1/OIDC)
-- Trust model: Zero Trust with mTLS service mesh
-- API proof model: Bearer token + DPoP for protected endpoints
-- Contract source: `<repo-root>/api/openapi`
-- API inventory source: `<repo-root>/docs/API_CATALOGUE.md`
+## Ownership Model For Security
 
-## Scope
+| Owner | Responsibility |
+| --- | --- |
+| Architecture Board | Approves exceptions, security policy, and architecture guardrails. |
+| Platform and Reliability Tribe | Owns shared security platform controls such as identity, mesh, and observability. |
+| Domain Squads | Own authn/authz behavior, contract alignment, secret hygiene, and repo-level security evidence. |
+| API Governance Guild | Owns OpenAPI, AsyncAPI, schema rules, and contract lint gates. |
+| DevSecOps Enablement Squad | Owns CI/CD policy enforcement, secret scanning, and repository guardrail templates. |
+
+## Applicable Repositories
 
 This baseline applies to:
+- Open Finance service repositories
+- Lending and payments service repositories
+- Customer, risk, and compliance repositories
+- Platform repositories for identity, mesh, eventing, observability, delivery, and IaC
+- Contract and governance repositories
 
-- Open Finance capability services
-- Bounded-context services (`customer-context`, `loan-context`, `payment-context`, `risk-context`, `compliance-context`)
-- Shared ingress, security, observability, and secret-management layers
+## Security Principles
 
-## Architecture Principles
+1. Contract first: the API contract defines the security requirements as well as the routes.
+2. Least privilege: scopes, audiences, and roles are explicit.
+3. One repo, one owner: security responsibilities are not shared ambiguously across teams.
+4. Evidence by default: guardrails are visible in docs, CODEOWNERS, and CI.
+5. Defense in depth: edge, mesh, workload, and data layers each enforce controls.
 
-- Contract-first delivery: OpenAPI is authoritative for routes, methods, and auth requirements.
-- Defense in depth: gateway, mesh, workload, and data layers each enforce controls.
-- Least privilege: scopes, audience, DPoP binding, and policy checks are mandatory for protected APIs.
-- Runtime secret resolution: secrets are fetched at runtime and masked at rest.
-- Traceability: every request is correlated with trace and interaction IDs.
+## Control Planes
 
-## Security Control Planes
+### Edge And Ingress
+- TLS 1.2+ required.
+- mTLS required for protected service-to-service traffic.
+- WAF and rate limiting are enforced before routing.
+- Request tracing and interaction IDs are normalized at ingress.
 
-### 1. Edge and Ingress Plane
+### Identity And Authorization
+- A centralized identity provider handles authentication.
+- OAuth2/OIDC tokens are validated by signature, issuer, audience, and expiry.
+- Protected APIs require explicit scope checks.
+- Sensitive flows use proof-of-possession or equivalent binding where required by policy.
 
-- API gateway and ingress enforce TLS 1.2+ and mTLS where required.
-- WAF and rate limiting execute before routing.
-- Request IDs and FAPI interaction IDs are normalized.
+### Service-To-Service
+- Mesh policy enforces strict workload identity.
+- Workloads are only allowed to talk to the repos and services documented in the architecture catalogue.
+- Outbound calls to external systems must use approved adapters.
 
-### 2. Identity and Authorization Plane
+### Data Protection
+- Data at rest must be encrypted.
+- Secrets must be injected at runtime from an approved secret store.
+- Logs must mask or redact identifiers, credentials, and personal data.
 
-- Keycloak is the centralized IdP and authorization server.
-- LDAP/AD federation is used for enterprise identity sources.
-- Token introspection/JWKS validation is centralized and cached.
-- OAuth2.1 Authorization Code + PKCE is mandatory for user-consent journeys.
-- Client Credentials flow is allowed for machine-to-machine use cases.
+### Observability And Audit
+- Every request must be traceable to a correlation ID.
+- Security events must be auditable and searchable.
+- Failed authn/authz attempts should be visible in telemetry and dashboards.
 
-### 3. API Proof and Access Plane
+## Repository Security Baseline
 
-- Protected endpoints require:
-  - Valid JWT (issuer, audience, expiry, signature)
-  - Valid DPoP proof (htu, htm, jti replay prevention, nonce where required)
-  - Scope and consent checks
-- Public endpoints are restricted to approved open-data contracts and still rate-limited.
+Each repo must provide:
+1. A README ownership block with tribe, squad, and review cadence.
+2. A `CODEOWNERS` file or equivalent ownership mapping.
+3. CI checks for secret scanning, document link validation, and path leakage.
+4. Contract validation for OpenAPI or AsyncAPI assets where applicable.
+5. Branch protection with required reviews and required checks.
+6. Evidence of data ownership for every schema or storage boundary.
 
-### 4. Service-to-Service Plane
+## Service Security Baseline
 
-- Service mesh enforces strict mTLS between workloads.
-- AuthorizationPolicy/OPA checks service identity and operation policy.
-- Sidecar telemetry emits request-level metrics and traces.
+### Protected APIs
+- JWT validation is mandatory.
+- Scope checks are mandatory.
+- DPoP or another approved proof-of-possession control is mandatory where the API exposes high-risk financial operations.
+- Consent decisions must be enforceable at runtime.
 
-### 5. Data Protection Plane
+### Public APIs
+- Public endpoints may be tokenless only when the contract explicitly allows it.
+- Even public endpoints must respect rate limits, telemetry, and response-shape contracts.
 
-- Data in transit: TLS/mTLS everywhere.
-- Data at rest: encrypted storage (DB, cache, object storage, backups).
-- Field-level protection for sensitive values (PII, account identifiers, keys).
-- Sensitive logs are masked before persistence.
+### Event-Driven Services
+- Event topics and schemas are versioned.
+- Event publishers must not leak personal data in payloads or headers.
+- Consumers must handle unknown fields and backward-compatible evolution.
 
-### 6. Observability and Audit Plane
+## Required CI Gates
 
-- Structured logs include: `trace_id`, `span_id`, `x-fapi-interaction-id`, caller, decision.
-- Metrics include security failures by control type.
-- Audit events are immutable and searchable by interaction ID.
+1. Secret scan
+2. Path leakage scan
+3. README and doc link validation
+4. OpenAPI or AsyncAPI lint
+5. Coverage gate
+6. Security dependency scan
+7. Required review and branch protection checks
 
-## Canonical Request Security Chain
+## Exception Handling
 
-1. Client calls API with `Authorization: DPoP <access-token>` and `DPoP` proof header.
-2. Gateway validates mTLS and rate limits.
-3. Security chain validates JWT signature/claims.
-4. Security chain validates DPoP proof and replay window.
-5. Scope/consent policy authorizes operation.
-6. Service handles request and emits structured telemetry.
-7. Data adapters enforce at-rest and field-level controls.
-8. Audit event persists with correlation IDs.
+Any exception to this baseline must be recorded in an ADR and approved by the Architecture Board. Exceptions are time-boxed and must name:
+- the repo
+- the owner
+- the control being waived
+- the compensating control
+- the expiry date
 
-## AAA Architecture (Distributed, Keycloak-Centric)
+## Verification
 
-### Authentication
-
-- Keycloak realm authenticates users and clients.
-- MFA and risk signals can trigger step-up authentication.
-- LDAP federation integrates enterprise identity sources.
-
-### Authorization
-
-- Coarse-grained auth via OAuth scopes and token audiences.
-- Fine-grained auth via service policy (OPA/Istio AuthorizationPolicy).
-- Consent-bound decisions enforced in domain/application services.
-
-### Accounting
-
-- Immutable audit logs for consent, payment, verification, and admin actions.
-- Trace-linked records for dispute, compliance, and incident response.
-
-## Standards Mapping
-
-- FAPI 2.0 Baseline and Advanced profiles (token, signing, transport)
-- OAuth2.1 + OIDC
-- RFC 9449 (DPoP)
-- OWASP ASVS controls for API and session security
-- PCI DSS / privacy controls for data handling and logging
-
-## Reference Diagrams
-
-- Security container view: `<repo-root>/docs/architecture/security-architecture.puml`
-- Request sequence view: `<repo-root>/docs/architecture/security-request-flow.uml`
-- Service-level security view: `<repo-root>/docs/puml/security/service-level-security.puml`
-
-## Delivery Guardrails
-
-Changes are considered incomplete if any of the following are missing:
-
-- Updated OpenAPI contract in `api/openapi`
-- Updated API catalogue in `<repo-root>/docs/API_CATALOGUE.md`
-- Updated security diagrams listed above
-- Tests proving authn/authz behavior for changed endpoints
+A repo is considered compliant when:
+- ownership metadata is present
+- required CI checks are enabled
+- security controls are documented and testable
+- no local paths or personal identifiers appear in committed docs
