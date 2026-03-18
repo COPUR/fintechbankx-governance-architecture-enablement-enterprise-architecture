@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Provide a PR-ready backlog to create **new repositories only** (no code migration in this phase), aligned with the approved Spotify model and DDD/event-driven boundaries.
+Provide a PR-ready backlog to create **new repositories only** (no code migration in this phase), aligned with the approved Spotify model, DDD/event-driven boundaries, and the canonical repo naming and ownership strategy.
 
 ## Backlog Categories
 
@@ -14,7 +14,7 @@ Provide a PR-ready backlog to create **new repositories only** (no code migratio
 
 ## Epic Backlog
 
-| Epic ID | Category | Priority | Epic | Owner Squad | Estimate (SP) |
+| Epic ID | Category | Priority | Epic | Primary Owner | Estimate (SP) |
 | --- | --- | --- | --- | --- | ---: |
 | REP-EP-001 | Governance and standards | P0 | Define repo charter, ownership, and contribution controls | DevSecOps Enablement Squad | 8 |
 | REP-EP-002 | Platform foundations | P0 | Bootstrap shared pipeline and security templates for all new repos | DevSecOps Enablement Squad | 13 |
@@ -26,7 +26,7 @@ Provide a PR-ready backlog to create **new repositories only** (no code migratio
 
 ## Story Backlog
 
-| Story ID | Epic | Priority | Story | Owner Squad | Dependency | Estimate (SP) | Exit Criteria |
+| Story ID | Epic | Priority | Story | Primary Owner | Dependency | Estimate (SP) | Exit Criteria |
 | --- | --- | --- | --- | --- | --- | ---: | --- |
 | REP-ST-001 | REP-EP-001 | P0 | Publish repo naming and ownership policy | DevSecOps Enablement Squad | None | 3 | Policy approved and linked from governance docs |
 | REP-ST-002 | REP-EP-001 | P0 | Standardize CODEOWNERS and branch protection baseline template | DevSecOps Enablement Squad | REP-ST-001 | 5 | Template includes required approvers and mandatory checks |
@@ -37,10 +37,10 @@ Provide a PR-ready backlog to create **new repositories only** (no code migratio
 | REP-ST-007 | REP-EP-003 | P0 | Create `fintechbankx-platform-service-mesh-security` repo | Mesh Security Squad | REP-ST-005 | 3 | Repo initialized and policy baseline documented |
 | REP-ST-008 | REP-EP-003 | P0 | Create `fintechbankx-platform-event-streaming` repo | Event Platform Squad | REP-ST-005 | 3 | Repo initialized with AsyncAPI and schema conventions |
 | REP-ST-009 | REP-EP-003 | P1 | Create `fintechbankx-platform-observability-sre` and `fintechbankx-platform-terraform-modules` repos | Observability and Data Platform Squads | REP-ST-005 | 5 | Both repos initialized with baseline standards |
-| REP-ST-010 | REP-EP-004 | P1 | Create open finance consent and AIS repos | Open Finance Tribe | REP-ST-003, REP-ST-004, REP-ST-005 | 8 | 4 repos created with standard skeleton and pipeline wiring |
-| REP-ST-011 | REP-EP-004 | P1 | Create open finance payee, metadata, products, ATM repos | Open Finance Tribe | REP-ST-010 | 8 | 4 repos created with standard skeleton and pipeline wiring |
-| REP-ST-012 | REP-EP-005 | P1 | Create loan and payment orchestration repos | Lending and Money Movement Tribe | REP-ST-003, REP-ST-004, REP-ST-005 | 8 | 5 repos created with standard skeleton and pipeline wiring |
-| REP-ST-013 | REP-EP-005 | P1 | Create customer, risk, compliance repos | Lending and Money Movement Tribe | REP-ST-012 | 8 | 3 repos created with standard skeleton and pipeline wiring |
+| REP-ST-010 | REP-EP-004 | P1 | Create `fintechbankx-openfinance-consent-authorization-service`, `fintechbankx-openfinance-personal-financial-data-service`, `fintechbankx-openfinance-business-financial-data-service`, and `fintechbankx-openfinance-banking-metadata-service` repos | Consent and Authorization Squad; Retail Financial Data Squad; Corporate Financial Data Squad; Payee and Metadata Squad | REP-ST-003, REP-ST-004, REP-ST-005 | 8 | Four Open Finance repos created with standard skeleton, ownership metadata, and pipeline wiring |
+| REP-ST-011 | REP-EP-004 | P1 | Create `fintechbankx-openfinance-payee-verification-service`, `fintechbankx-openfinance-open-products-catalog-service`, and `fintechbankx-openfinance-atm-directory-service` repos | Payee and Metadata Squad; Open Data Squad | REP-ST-010 | 8 | Three Open Finance repos created with standard skeleton, ownership metadata, and pipeline wiring |
+| REP-ST-012 | REP-EP-005 | P1 | Create `fintechbankx-lending-loan-lifecycle-service`, `fintechbankx-payments-initiation-settlement-service`, `fintechbankx-payments-recurring-mandates-service`, `fintechbankx-payments-bulk-orchestration-service`, and `fintechbankx-payments-request-to-pay-service` repos | Loan Lifecycle Squad; Payment Orchestration Squad; Recurring and Bulk Payments Squad | REP-ST-003, REP-ST-004, REP-ST-005 | 8 | Five Lending and Money Movement repos created with standard skeleton, ownership metadata, and pipeline wiring |
+| REP-ST-013 | REP-EP-005 | P1 | Create `fintechbankx-customer-profile-kyc-service`, `fintechbankx-risk-decisioning-service`, and `fintechbankx-compliance-evidence-service` repos | Customer and KYC Squad; Risk and Compliance Decisioning Squad | REP-ST-012 | 8 | Three domain repos created with standard skeleton, ownership metadata, and pipeline wiring |
 | REP-ST-014 | REP-EP-006 | P1 | Create `fintechbankx-contracts-openapi-catalog` repo and publication workflow | API Governance Guild | REP-ST-003, REP-ST-004 | 5 | Contracts lint and compatibility gate are active |
 | REP-ST-015 | REP-EP-006 | P1 | Create `fintechbankx-contracts-asyncapi-catalog` and `fintechbankx-contracts-schema-registry` repos | API Governance Guild | REP-ST-014 | 5 | Async contracts validated and version policy published |
 | REP-ST-016 | REP-EP-007 | P1 | Create migration runbook template for non-disruptive code extraction | Architecture Board + SRE | REP-ST-010, REP-ST-012 | 3 | Runbook includes rollback, observability, and acceptance checklist |
@@ -90,3 +90,4 @@ Provide a PR-ready backlog to create **new repositories only** (no code migratio
 2. Squad ownership approved by tribe leads.
 3. Platform and contract repos accepted by governance guilds.
 4. Migration runbook template and cutover scorecard approved.
+5. Ownership metadata is present for each repo and matches the naming strategy document.

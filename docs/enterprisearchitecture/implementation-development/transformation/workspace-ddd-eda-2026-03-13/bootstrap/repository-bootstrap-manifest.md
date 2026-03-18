@@ -13,36 +13,36 @@ This manifest starts transformation by defining target repositories with aligned
 
 ## Runtime and Platform Repositories
 
-| Repo | Context | Service ID | App ID | DB (Prod Pattern) | Primary Event Namespace | Owning Squad | Wave |
+| Repo | Context | Owning Tribe | Service ID | App ID | DB (Prod Pattern) | Primary Event Namespace | Owning Squad | Wave |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| fintechbankx-openfinance-consent-authorization-service | Open Finance | svc-of-consent-authorization | app.of.consent-authorization | db_of_consent_authorization_prod | evt.of.consent | Consent and Authorization Squad | 2 |
-| fintechbankx-openfinance-personal-financial-data-service | Open Finance | svc-of-personal-financial-data | app.of.personal-financial-data | db_of_personal_financial_data_prod | evt.of.account | Retail Financial Data Squad | 2 |
-| fintechbankx-openfinance-business-financial-data-service | Open Finance | svc-of-business-financial-data | app.of.business-financial-data | db_of_business_financial_data_prod | evt.of.corporate | Corporate Financial Data Squad | 2 |
-| fintechbankx-openfinance-payee-verification-service | Open Finance | svc-of-payee-verification | app.of.payee-verification | db_of_payee_verification_prod | evt.of.payee | Payee and Metadata Squad | 1 |
-| fintechbankx-openfinance-banking-metadata-service | Open Finance | svc-of-banking-metadata | app.of.banking-metadata | db_of_banking_metadata_prod | evt.of.metadata | Payee and Metadata Squad | 2 |
-| fintechbankx-openfinance-open-products-catalog-service | Open Finance | svc-of-open-products-catalog | app.of.open-products-catalog | db_of_open_products_catalog_prod | evt.of.products | Open Data Squad | 1 |
-| fintechbankx-openfinance-atm-directory-service | Open Finance | svc-of-atm-directory | app.of.atm-directory | db_of_atm_directory_prod | evt.of.atm | Open Data Squad | 1 |
-| fintechbankx-lending-loan-lifecycle-service | Lending | svc-ln-loan-lifecycle | app.ln.loan-lifecycle | db_ln_loan_lifecycle_prod | evt.ln.loan | Loan Lifecycle Squad | 3 |
-| fintechbankx-payments-initiation-settlement-service | Payments | svc-pay-initiation-settlement | app.pay.initiation-settlement | db_pay_initiation_settlement_prod | evt.pay.payment | Payment Orchestration Squad | 3 |
-| fintechbankx-payments-recurring-mandates-service | Payments | svc-pay-recurring-mandates | app.pay.recurring-mandates | db_pay_recurring_mandates_prod | evt.pay.mandate | Recurring and Bulk Payments Squad | 3 |
-| fintechbankx-payments-bulk-orchestration-service | Payments | svc-pay-bulk-orchestration | app.pay.bulk-orchestration | db_pay_bulk_orchestration_prod | evt.pay.bulk | Recurring and Bulk Payments Squad | 3 |
-| fintechbankx-payments-request-to-pay-service | Payments | svc-pay-request-to-pay | app.pay.request-to-pay | db_pay_request_to_pay_prod | evt.pay.rtp | Recurring and Bulk Payments Squad | 3 |
-| fintechbankx-customer-profile-kyc-service | Customer | svc-cus-profile-kyc | app.cus.profile-kyc | db_cus_profile_kyc_prod | evt.cus.customer | Customer and KYC Squad | 4 |
-| fintechbankx-risk-decisioning-service | Risk | svc-rsk-decisioning | app.rsk.decisioning | db_rsk_decisioning_prod | evt.rsk.risk | Risk and Compliance Decisioning Squad | 4 |
-| fintechbankx-compliance-evidence-service | Compliance | svc-cmp-evidence | app.cmp.evidence | db_cmp_evidence_prod | evt.cmp.compliance | Risk and Compliance Decisioning Squad | 4 |
-| fintechbankx-platform-identity-keycloak-ldap | Platform | svc-idn-keycloak-ldap | app.idn.keycloak-ldap | db_idn_keycloak_ldap_prod | evt.idn.identity | Identity Platform Squad | 0 |
-| fintechbankx-platform-service-mesh-security | Platform | svc-msh-security | app.msh.security | N/A | evt.msh.policy | Mesh Security Squad | 0 |
-| fintechbankx-platform-event-streaming | Platform | svc-evt-streaming | app.evt.streaming | db_evt_streaming_prod | evt.evt.platform | Event Platform Squad | 0 |
-| fintechbankx-platform-observability-sre | Platform | svc-obs-sre | app.obs.sre | db_obs_sre_prod | evt.obs.telemetry | Observability and SRE Squad | 0 |
-| fintechbankx-platform-delivery-templates | Platform | svc-dly-templates | app.dly.templates | N/A | evt.dly.pipeline | DevSecOps Enablement Squad | 0 |
-| fintechbankx-platform-terraform-modules | Platform | svc-iac-modules | app.iac.modules | N/A | evt.iac.module | Infrastructure and Data Platform Squad | 0 |
-| fintechbankx-contracts-openapi-catalog | Contracts | svc-ctr-openapi-catalog | app.ctr.openapi-catalog | db_ctr_openapi_catalog_prod | evt.ctr.openapi | API Governance Guild | 4 |
-| fintechbankx-contracts-asyncapi-catalog | Contracts | svc-ctr-asyncapi-catalog | app.ctr.asyncapi-catalog | db_ctr_asyncapi_catalog_prod | evt.ctr.asyncapi | API Governance Guild | 4 |
-| fintechbankx-contracts-schema-registry | Contracts | svc-ctr-schema-registry | app.ctr.schema-registry | db_ctr_schema_registry_prod | evt.ctr.schema | API Governance Guild | 4 |
-| fintechbankx-governance-architecture-adr-runbooks | Governance | svc-gov-architecture-runbooks | app.gov.architecture-runbooks | N/A | evt.gov.architecture | Architecture Board | 4 |
+| fintechbankx-openfinance-consent-authorization-service | Open Finance | Open Finance Tribe | svc-of-consent-authorization | app.of.consent-authorization | db_of_consent_authorization_prod | evt.of.consent | Consent and Authorization Squad | 2 |
+| fintechbankx-openfinance-personal-financial-data-service | Open Finance | Open Finance Tribe | svc-of-personal-financial-data | app.of.personal-financial-data | db_of_personal_financial_data_prod | evt.of.account | Retail Financial Data Squad | 2 |
+| fintechbankx-openfinance-business-financial-data-service | Open Finance | Open Finance Tribe | svc-of-business-financial-data | app.of.business-financial-data | db_of_business_financial_data_prod | evt.of.corporate | Corporate Financial Data Squad | 2 |
+| fintechbankx-openfinance-payee-verification-service | Open Finance | Open Finance Tribe | svc-of-payee-verification | app.of.payee-verification | db_of_payee_verification_prod | evt.of.payee | Payee and Metadata Squad | 1 |
+| fintechbankx-openfinance-banking-metadata-service | Open Finance | Open Finance Tribe | svc-of-banking-metadata | app.of.banking-metadata | db_of_banking_metadata_prod | evt.of.metadata | Payee and Metadata Squad | 2 |
+| fintechbankx-openfinance-open-products-catalog-service | Open Finance | Open Finance Tribe | svc-of-open-products-catalog | app.of.open-products-catalog | db_of_open_products_catalog_prod | evt.of.products | Open Data Squad | 1 |
+| fintechbankx-openfinance-atm-directory-service | Open Finance | Open Finance Tribe | svc-of-atm-directory | app.of.atm-directory | db_of_atm_directory_prod | evt.of.atm | Open Data Squad | 1 |
+| fintechbankx-lending-loan-lifecycle-service | Lending | Lending and Money Movement Tribe | svc-ln-loan-lifecycle | app.ln.loan-lifecycle | db_ln_loan_lifecycle_prod | evt.ln.loan | Loan Lifecycle Squad | 3 |
+| fintechbankx-payments-initiation-settlement-service | Payments | Lending and Money Movement Tribe | svc-pay-initiation-settlement | app.pay.initiation-settlement | db_pay_initiation_settlement_prod | evt.pay.payment | Payment Orchestration Squad | 3 |
+| fintechbankx-payments-recurring-mandates-service | Payments | Lending and Money Movement Tribe | svc-pay-recurring-mandates | app.pay.recurring-mandates | db_pay_recurring_mandates_prod | evt.pay.mandate | Recurring and Bulk Payments Squad | 3 |
+| fintechbankx-payments-bulk-orchestration-service | Payments | Lending and Money Movement Tribe | svc-pay-bulk-orchestration | app.pay.bulk-orchestration | db_pay_bulk_orchestration_prod | evt.pay.bulk | Recurring and Bulk Payments Squad | 3 |
+| fintechbankx-payments-request-to-pay-service | Payments | Lending and Money Movement Tribe | svc-pay-request-to-pay | app.pay.request-to-pay | db_pay_request_to_pay_prod | evt.pay.rtp | Recurring and Bulk Payments Squad | 3 |
+| fintechbankx-customer-profile-kyc-service | Customer | Lending and Money Movement Tribe | svc-cus-profile-kyc | app.cus.profile-kyc | db_cus_profile_kyc_prod | evt.cus.customer | Customer and KYC Squad | 4 |
+| fintechbankx-risk-decisioning-service | Risk | Lending and Money Movement Tribe | svc-rsk-decisioning | app.rsk.decisioning | db_rsk_decisioning_prod | evt.rsk.risk | Risk and Compliance Decisioning Squad | 4 |
+| fintechbankx-compliance-evidence-service | Compliance | Lending and Money Movement Tribe | svc-cmp-evidence | app.cmp.evidence | db_cmp_evidence_prod | evt.cmp.compliance | Risk and Compliance Decisioning Squad | 4 |
+| fintechbankx-platform-identity-keycloak-ldap | Platform | Platform and Reliability Tribe | svc-idn-keycloak-ldap | app.idn.keycloak-ldap | db_idn_keycloak_ldap_prod | evt.idn.identity | Identity Platform Squad | 0 |
+| fintechbankx-platform-service-mesh-security | Platform | Platform and Reliability Tribe | svc-msh-security | app.msh.security | N/A | evt.msh.policy | Mesh Security Squad | 0 |
+| fintechbankx-platform-event-streaming | Platform | Platform and Reliability Tribe | svc-evt-streaming | app.evt.streaming | db_evt_streaming_prod | evt.evt.platform | Event Platform Squad | 0 |
+| fintechbankx-platform-observability-sre | Platform | Platform and Reliability Tribe | svc-obs-sre | app.obs.sre | db_obs_sre_prod | evt.obs.telemetry | Observability and SRE Squad | 0 |
+| fintechbankx-platform-delivery-templates | Platform | Platform and Reliability Tribe | svc-dly-templates | app.dly.templates | N/A | evt.dly.pipeline | DevSecOps Enablement Squad | 0 |
+| fintechbankx-platform-terraform-modules | Platform | Platform and Reliability Tribe | svc-iac-modules | app.iac.modules | N/A | evt.iac.module | Infrastructure and Data Platform Squad | 0 |
+| fintechbankx-contracts-openapi-catalog | Contracts | Governance and Contract Control | svc-ctr-openapi-catalog | app.ctr.openapi-catalog | db_ctr_openapi_catalog_prod | evt.ctr.openapi | API Governance Guild | 4 |
+| fintechbankx-contracts-asyncapi-catalog | Contracts | Governance and Contract Control | svc-ctr-asyncapi-catalog | app.ctr.asyncapi-catalog | db_ctr_asyncapi_catalog_prod | evt.ctr.asyncapi | API Governance Guild | 4 |
+| fintechbankx-contracts-schema-registry | Contracts | Governance and Contract Control | svc-ctr-schema-registry | app.ctr.schema-registry | db_ctr_schema_registry_prod | evt.ctr.schema | API Governance Guild | 4 |
+| fintechbankx-governance-architecture-adr-runbooks | Governance | Governance and Contract Control | svc-gov-architecture-runbooks | app.gov.architecture-runbooks | N/A | evt.gov.architecture | Architecture Board | 4 |
 
 ## Notes
 
 1. `N/A` DB entries indicate stateless or file/config-driven repositories.
 2. `_prod` suffix is environment-specific and must be replaced per environment.
-3. Each repo must include a `README` ownership block and `CODEOWNERS` with squad mapping.
+3. Each repo must include a `README` ownership block and `CODEOWNERS` with squad and tribe mapping.

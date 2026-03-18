@@ -27,12 +27,13 @@ From `docs/enterprisearchitecture/implementation-development/transformation/outp
 ## Transformation Start Outputs
 
 1. `NAMING_CONVENTION_DDD_EDA_BUSINESS_CONTEXT.md`
-2. `bootstrap/repository-bootstrap-manifest.md`
-3. `bootstrap/repository-bootstrap-manifest.csv`
-4. `bootstrap/transformation-kickoff-checklist.md`
-5. `bootstrap/command-pack/README.md`
-6. `bootstrap/command-pack/generate-repo-create-command-pack.mjs`
-7. `bootstrap/command-pack/generated/*`
+2. `REPO_NAMING_AND_OWNERSHIP_STRATEGY.md`
+3. `bootstrap/repository-bootstrap-manifest.md`
+4. `bootstrap/repository-bootstrap-manifest.csv`
+5. `bootstrap/transformation-kickoff-checklist.md`
+6. `bootstrap/command-pack/README.md`
+7. `bootstrap/command-pack/generate-repo-create-command-pack.mjs`
+8. `bootstrap/command-pack/generated/*`
 
 ## Execution Policy
 
@@ -40,3 +41,4 @@ From `docs/enterprisearchitecture/implementation-development/transformation/outp
 2. One bounded context per service repository.
 3. One data owner per schema/database.
 4. Event versioning and schema governance from day one.
+5. Repo ownership must be traceable to one tribe, one squad, and one review cadence.
