@@ -2,7 +2,7 @@
 
 This repository is the enterprise architecture source of truth for FinTechBankX. It is aligned to the Spotify model at the governance layer: each repo has one primary tribe, one primary squad, one bounded context, and one accountable review cadence.
 
-## Responsibility Model
+## Sorumluluk ve Sahiplik
 
 | Layer | Responsibility |
 | --- | --- |
@@ -22,7 +22,7 @@ This repository contains:
 - Governance, ADR/runbook references, and implementation standards
 - Repository naming, ownership, and execution guidance for the Spotify-aligned model
 
-## Key Documents
+## Dokümantasyon ve Referanslar
 
 - [Repo Naming & Ownership Strategy](docs/enterprisearchitecture/implementation-development/transformation/workspace-ddd-eda-2026-03-13/REPO_NAMING_AND_OWNERSHIP_STRATEGY.md)
 - [Microservices Transformation Plan](docs/enterprisearchitecture/implementation-development/MICROSERVICES_TRANSFORMATION_PLAN.md)
