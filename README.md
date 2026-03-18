@@ -24,7 +24,7 @@ This repository contains:
 
 ## Dokümantasyon ve Referanslar
 
-- [Repo Naming & Ownership Strategy](docs/enterprisearchitecture/implementation-development/transformation/workspace-ddd-eda-2026-03-13/REPO_NAMING_AND_OWNERSHIP_STRATEGY.md)
+- [Repo Naming & Ownership Strategy](docs/enterprisearchitecture/implementation-development/transformation/SPOTIFY_TRIBE_SQUAD_REPOSITORY_STRATEGY.md)
 - [Microservices Transformation Plan](docs/enterprisearchitecture/implementation-development/MICROSERVICES_TRANSFORMATION_PLAN.md)
 - [Microservices Transformation Task List](docs/enterprisearchitecture/implementation-development/MICROSERVICES_TRANSFORMATION_TASK_LIST.md)
 - [Secure Microservices Architecture](docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md)
