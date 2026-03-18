@@ -11,6 +11,8 @@ Define a single enterprise naming standard for newly created:
 5. Event topics and contracts
 
 This standard is based on bounded context ownership, event-driven integration, and low-coupling design.
+For the broader repository strategy and squad ownership model, see:
+[`REPO_NAMING_AND_OWNERSHIP_STRATEGY.md`](REPO_NAMING_AND_OWNERSHIP_STRATEGY.md).
 
 ## Core Principles
 
@@ -225,10 +227,12 @@ Every repository must include these metadata tags in `README` and `CODEOWNERS`:
 
 1. `bounded_context`
 2. `owning_squad`
-3. `upstream_dependencies`
-4. `published_events`
-5. `consumed_events`
-6. `data_owner`
+3. `owning_tribe`
+4. `review_cadence`
+5. `data_owner`
+6. `upstream_dependencies`
+7. `published_events`
+8. `consumed_events`
 
 ## Compliance Enforcement Hooks
 

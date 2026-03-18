@@ -9,6 +9,9 @@ Define a **planning-only** transformation model for splitting the current monore
 3. Event-driven integration
 4. High cohesion / low coupling execution
 
+The canonical repository policy and ownership rules are defined in:
+`docs/enterprisearchitecture/implementation-development/transformation/workspace-ddd-eda-2026-03-13/REPO_NAMING_AND_OWNERSHIP_STRATEGY.md`.
+
 ## Planning Constraint
 
 - This artifact **does not modify runtime code**.
@@ -21,6 +24,7 @@ Define a **planning-only** transformation model for splitting the current monore
 3. No cross-service direct DB access.
 4. API-first and event-contract-first before implementation.
 5. Shared code is limited to primitives and contract tooling, not domain logic.
+6. Each repository has exactly one owning squad, one owning tribe, and one review cadence.
 
 ## To-Be Spotify Topology
 
@@ -75,6 +79,7 @@ Define a **planning-only** transformation model for splitting the current monore
 - Use lowercase kebab-case.
 - Avoid use-case numeric naming.
 - Keep one deployable service per repo for runtime services.
+- Follow the canonical repo prefixes described in the repository naming strategy document.
 
 Pattern:
 
