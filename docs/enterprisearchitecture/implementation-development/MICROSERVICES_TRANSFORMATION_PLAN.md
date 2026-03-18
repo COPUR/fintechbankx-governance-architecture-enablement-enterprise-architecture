@@ -1,101 +1,99 @@
 # Microservices Transformation Plan
 
-## Objective
-Transform the current monorepo implementation into **separate, deployable microservices** per use case, with automated CI/CD (GitHub Actions + Jenkins + GitLab), Terraform IaC stubs, and phase‑based delivery artifacts.
+## Purpose
 
-## Assumptions
-- Each microservice will be a **separate repository**.
-- CI/CD pipelines must support **Jenkins** and **GitLab** in addition to existing workflows.
-- Terraform modules will be **provider-backed** (no output-only stubs) for each service.
-- Each phase produces a **delivery artifact** committed to this repo.
-- Java toolchain baseline is **Java 23** for all extracted services.
-- **DPoP is mandatory** for all protected Open Finance endpoints (AIS, PIS, CoP, Metadata). Open Data services can remain tokenless or bearer-only if approved by security architecture.
+This plan defines the strategy for splitting the current monorepo into separate, deployable repositories that follow the Spotify model, DDD bounded contexts, and event-driven integration.
 
-## Scope
-- In scope:
-- FAPI security chain (JWT validation, scope enforcement, DPoP proof verification, mTLS/client cert binding checks).
-- OpenAPI and implementation alignment with contract tests in CI.
-- Production-ready persistence/cache adapters behind existing ports (MongoDB/Redis for AIS services).
-- Distributed ETag/cache strategy with TTL and bounded growth.
-- Standard observability baseline (trace id, metrics, structured logs with PII masking).
-- Runnable Jenkins/GitLab pipelines and provider-backed Terraform base module.
+The plan is not a code implementation document. It is the execution contract for repository design, ownership, sequencing, and governance.
 
-- Out of scope for this plan revision:
-- Business feature expansion not required to close guardrail/compliance gaps.
-- Non-critical cosmetic refactors unrelated to security, contract, persistence, observability, or delivery.
+## Spotify-Aligned Operating Model
 
-## Wave Prioritization (Dependency-Driven)
-See `MICROSERVICE_SERVICE_NOMENCLATURE.md` for full service names and repo slugs.
+| Unit | Accountability |
+| --- | --- |
+| Tribe | Owns portfolio direction, sequencing, and major dependency decisions. |
+| Squad | Owns a bounded-context repo, its backlog, tests, docs, and release readiness. |
+| Guild | Owns shared standards, templates, and policy guardrails. |
+| Board | Owns exception approval, cross-tribe arbitration, and architecture sign-off. |
 
-**Wave 0: Platform Guardrails**
-- Shared FAPI security starter.
-- Shared observability baseline.
-- Runnable CI/CD templates (Jenkins + GitLab) with quality/security gates.
-- Provider-backed Terraform `microservice-base` module.
-- OpenAPI contract-test framework and breaking-change gate.
+## Repository Ownership Rules
 
-**Wave 1: Pilot Hardening (Business Financial Data Service)**
-- Resolve OpenAPI drift:
-- Contract paths and controller mappings must match.
-- `DPoP` marked required in OpenAPI and enforced in runtime.
-- Remove in-memory seeded runtime adapters and replace with production adapters behind ports.
-- Move controller-local ETag cache to distributed TTL cache.
-- Strengthen ETag hash input to include full response-significant fields.
-- Re-enable security filter chain in integration tests.
+1. One bounded context maps to one primary repo.
+2. One primary squad owns each repo.
+3. One tribe owns the squad portfolio.
+4. One data owner owns each database or schema boundary.
+5. One review cadence applies to each repo and is recorded in README and CODEOWNERS.
+6. Platform repos, contract repos, and governance repos follow the same ownership model.
 
-**Wave 2: AIS Rollout**
-- Apply Wave 1 pattern to Personal Financial Data Service and Banking Metadata Enrichment Service.
+## Canonical Repo Families
 
-**Wave 3: Remaining Bounded Context Services**
-- Roll out shared modules and gates to payment, risk, customer, compliance, loan, and open-finance context repos.
+### Open Finance Tribe
+- `fintechbankx-openfinance-consent-auth-service`
+- `fintechbankx-openfinance-retail-data-personal-financial`
+- `fintechbankx-openfinance-corporate-data-business-financial`
+- `fintechbankx-openfinance-payee-metadata-payee-verification`
+- `fintechbankx-openfinance-payee-metadata-banking-metadata`
+- `fintechbankx-openfinance-open-data-products-catalog`
+- `fintechbankx-openfinance-open-data-atm-directory`
 
-## Phase Plan & Deliverables
+### Lending and Payments Tribe
+- `fintechbankx-lendingpayments-loan-lifecycle-core`
+- `fintechbankx-lendingpayments-payment-orchestration-initiation-settlement`
+- `fintechbankx-lendingpayments-payment-orchestration-recurring-mandates`
+- `fintechbankx-lendingpayments-payment-orchestration-bulk-orchestration`
+- `fintechbankx-lendingpayments-payment-orchestration-request-to-pay`
 
-### Phase 1: Analysis & Governance
-**Goal:** document current structure, dependencies, and guardrails.
+### Customer, Risk, and Compliance
+- `fintechbankx-customer-profile-kyc-core`
+- `fintechbankx-riskcompliance-risk-decisioning-core`
+- `fintechbankx-riskcompliance-compliance-evidence-core`
 
-**Deliverables**
-- `transformation/phases/PHASE_1_ANALYSIS_AND_GOVERNANCE.md`
-- `transformation/MICROSERVICES_REPO_AUDIT.md`
+### Platform and Reliability Tribe
+- `fintechbankx-platform-identity-iam-keycloak-ldap`
+- `fintechbankx-platform-mesh-security-service-mesh`
+- `fintechbankx-platform-event-streaming-kafka`
+- `fintechbankx-platform-observability-sre-operations`
+- `fintechbankx-platform-delivery-iac-cicd-templates`
+- `fintechbankx-platform-delivery-iac-terraform-modules`
 
-### Phase 2: Template & Repo Setup
-**Goal:** define the golden template and repo creation workflow.
+### Governance and Contract Control
+- `fintechbankx-governance-api-contracts-openapi-catalog`
+- `fintechbankx-governance-api-contracts-asyncapi-catalog`
+- `fintechbankx-governance-api-contracts-schema-registry`
+- `fintechbankx-governance-architecture-enablement-adr-runbooks`
+- `fintechbankx-governance-architecture-enablement-enterprise-architecture`
 
-**Deliverables**
-- `transformation/phases/PHASE_2_TEMPLATE_AND_REPO_SETUP.md`
-- `templates/microservice/README.md`
+## Transformation Waves
 
-### Phase 3: CI/CD & Automation
-**Goal:** standard pipelines with Jenkins + GitLab support.
+| Wave | Primary Goal | Primary Owners | Output |
+| --- | --- | --- | --- |
+| Wave 0 | Establish platform guardrails | Platform and Reliability Tribe | Secure CI/CD templates, identity, mesh, eventing, observability, IaC repos |
+| Wave 1 | Harden Open Finance edge services | Open Finance squads | Consent, payee, metadata, open data repos with ownership blocks and contract gates |
+| Wave 2 | Split financial data services | Open Finance squads | Retail and corporate data repos with explicit schema ownership and event contracts |
+| Wave 3 | Split lending and payment services | Lending and Payments squads | Loan, initiation, recurring, bulk, and request-to-pay repos |
+| Wave 4 | Complete customer, risk, compliance, contracts, and governance | Customer/Risk/Compliance squads, guilds, board | Customer, risk, compliance, contract catalog, and governance repos |
 
-**Deliverables**
-- `transformation/phases/PHASE_3_CICD_AUTOMATION.md`
-- `ci/templates/microservice/Jenkinsfile`
-- `ci/templates/microservice/gitlab-ci.yml`
-- Pipeline quality gate implementation:
-- contract tests against OpenAPI.
-- coverage enforcement `>=85%`.
-- SAST, dependency scan, secret scan.
+## Design Rules
 
-### Phase 4: Infrastructure & Deployment
-**Goal:** provider-backed Terraform modules + deployment topology.
+1. Use business capability names, not use-case numbers.
+2. Prefer one deployable service per repo.
+3. Keep data ownership local to the repo.
+4. Publish events as domain facts in past tense.
+5. Version APIs and events explicitly.
+6. Require branch protection and required checks before repo creation.
+7. Add ownership metadata to README, CODEOWNERS, and execution artifacts.
 
-**Deliverables**
-- `transformation/phases/PHASE_4_TERRAFORM_AND_DEPLOYMENT.md`
-- `infra/terraform/modules/microservice-base/*`
-- `infra/terraform/services/*`
-- Provider resources for:
-- network/security primitives.
-- database/cache backing services.
-- IAM/secrets and observability sinks.
+## Execution Artifacts
 
-## Phase Gates
-- **Gate A:** All Phase 1 deliverables completed and approved.
-- **Gate B:** Template repo validated with a working service skeleton.
-- **Gate C:** CI/CD templates are runnable and passing in a reference service repo.
-- **Gate D:** Terraform module provisions real resources in a dev environment.
-- **Gate E:** Pilot service passes mandatory compliance checks:
-- DPoP proof validation enabled.
-- OpenAPI contract drift eliminated.
-- No in-memory runtime persistence adapters.
-- Distributed bounded ETag/cache strategy in place.
+- `docs/enterprisearchitecture/implementation-development/MICROSERVICES_TRANSFORMATION_TASK_LIST.md`
+- `docs/enterprisearchitecture/implementation-development/SERVICE_DATA_OWNERSHIP_MATRIX.md`
+- `docs/enterprisearchitecture/implementation-development/SERVICE_API_CONTRACTS_INDEX.md`
+- `docs/architecture/overview/SECURE_MICROSERVICES_ARCHITECTURE.md`
+- `docs/enterprisearchitecture/project-management/EXECUTION_STATUS_AND_NEXT_STEPS.md`
+
+## Success Criteria
+
+1. Every target repo has a defined tribe, squad, and review cadence.
+2. Every repo has a CODEOWNERS file and a responsibility block in README.
+3. Every bounded context has a named data owner and explicit contract ownership.
+4. Every repo passes the publication guardrails and security checks.
+5. The transformation backlog can be executed without ambiguity in ownership or naming.

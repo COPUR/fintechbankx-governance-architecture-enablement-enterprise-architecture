@@ -1,208 +1,73 @@
-# Master Task List: Open Finance Repository & Pipeline Strategy
+# Microservices Transformation Task List
 
-**Objective:** Transition from monolithic analysis to decentralized, deployable microservices for each Open Finance Use Case (e.g., Personal Financial Management, Payment Initiation, Confirmation of Payee), fully automated via CI/CD.
-**Policy Update:** `DPoP` is mandatory for protected Open Finance endpoints.
+## Purpose
 
----
+This task list turns the Spotify-aligned repo strategy into executable work items. Each item is written to preserve clear ownership, traceability, and repository boundaries.
 
-## Universal Task List (Wave Execution Order)
+## Workstream A: Governance And Naming
 
-- [ ] Wave 0 Platform Guardrails:
-- [ ] Implement shared FAPI chain (JWT validation, scope enforcement, mandatory DPoP proof verification, mTLS binding checks).
-- [ ] Re-enable security filter chain in integration/functional tests for protected APIs.
-- [x] Replace placeholder Jenkins/GitLab steps with executable quality/security gates.
-- [x] Replace bounded-context echo-only GitLab/Jenkins pipelines with runnable OpenAPI contract and secret-scanning gates.
-- [x] Replace Terraform output-only stubs with provider-backed baseline resources.
-- [x] Implement observability baseline in runtime code (traces, metrics, structured logs, PII masking).
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Publish the repo naming and ownership strategy | Architecture Enablement Squad | Strategy doc | The repo naming, tribe, squad, and governance model is documented and linked from the root README. |
+| Standardize the ubiquitous language for owners | Architecture Enablement Squad | Glossary section | `Primary Owner`, `Owning Tribe`, `Owning Squad`, and `Owning Guild` are used consistently in backlog and execution docs. |
+| Define CODEOWNERS and ownership blocks | Architecture Enablement Squad | CODEOWNERS template | Every target repo can inherit the same ownership metadata pattern. |
+| Record review cadence rules | Architecture Board | Review policy | Domain repos, platform repos, and governance repos each have a defined review cadence. |
 
-- [ ] Wave 1 Pilot Hardening (Business Financial Data Service):
-- [x] Resolve OpenAPI and controller path/header drift.
-- [x] Implement runtime FAPI security chain (JWT + scope checks + DPoP proof verification) for Business Financial Data Service.
-- [x] Re-enable security filter chain in Business Financial Data Service integration/functional tests with signed JWT + DPoP proofs.
-- [x] Mark `DPoP` required in Business Financial Data Service OpenAPI contract for protected operations.
-- [x] Replace production in-memory persistence adapters with durable DB/cache adapters.
-- [x] Move ETag/state cache from local memory maps to distributed TTL cache.
-- [x] Strengthen ETag hash material to include full response-significant fields.
-- [x] Add CI contract tests to block future drift.
-- [x] Add runtime observability baseline (trace id propagation, request metrics, structured request-completion logs).
+## Workstream B: Platform Baseline
 
-- [x] Wave 2 AIS Rollout:
-- [x] Apply Wave 1 observability baseline pattern to Personal Financial Data Service.
-- [x] Apply Wave 1 observability baseline pattern to Banking Metadata Service.
-- [x] Apply Wave 1 runtime FAPI chain pattern (JWT + scope + mandatory DPoP) to Personal Financial Data Service.
-- [x] Apply Wave 1 runtime FAPI chain pattern (JWT + scope + mandatory DPoP) to Banking Metadata Service.
-- [x] Re-enable integration/functional security filters in Personal Financial Data and Banking Metadata test suites.
-- [x] Replace production in-memory persistence adapters with MongoDB adapters in Personal Financial Data Service.
-- [x] Replace production in-memory persistence adapters with MongoDB adapters in Banking Metadata Service.
-- [x] Replace production in-memory cache adapters with Redis adapters in Personal Financial Data Service.
-- [x] Replace production in-memory cache adapters with Redis adapters in Banking Metadata Service.
-- [x] Pin Personal Financial Data and Banking Metadata integration/UAT suites to in-memory adapter mode for deterministic local test execution.
-- [x] Implement executable `risk-context` and `compliance-context` bounded contexts (domain/application/infrastructure) with TDD, OpenAPI contract tests, and 85%+ coverage gates.
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Bootstrap identity repo | Identity Platform Squad | `fintechbankx-platform-identity-iam-keycloak-ldap` | Repo contains README, ownership block, CI template, and initial ADR link. |
+| Bootstrap mesh security repo | Mesh Security Squad | `fintechbankx-platform-mesh-security-service-mesh` | Repo contains policy baseline and mesh guardrail documentation. |
+| Bootstrap event streaming repo | Event Platform Squad | `fintechbankx-platform-event-streaming-kafka` | Repo contains AsyncAPI, schema governance, and event naming rules. |
+| Bootstrap observability repo | Observability and SRE Squad | `fintechbankx-platform-observability-sre-operations` | Repo contains telemetry baseline, dashboards, and alerting guidance. |
+| Bootstrap delivery templates repo | DevSecOps Enablement Squad | `fintechbankx-platform-delivery-iac-cicd-templates` | Repo contains reusable CI templates and publication-safe release gates. |
+| Bootstrap Terraform modules repo | Infrastructure and Data Platform Squad | `fintechbankx-platform-delivery-iac-terraform-modules` | Repo contains reusable IaC modules with ownership and versioning rules. |
 
-- [ ] Wave 3 Context Rollout:
-- [x] Publish source-of-truth ADR for Open Finance runtime ownership (`docs/architecture/adr/ADR-007-open-finance-source-of-truth.md`).
-- [ ] Roll out shared security/observability/pipeline/IaC standards to remaining bounded contexts.
+## Workstream C: Open Finance Repo Split
 
----
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Split consent and personal data repos | Consent and Authorization Squad, Retail Financial Data Squad | Consent and retail financial data repos | Repo boundaries match one bounded context per repo and each repo has a named data owner. |
+| Split corporate data and payee/metadata repos | Corporate Financial Data Squad, Payee and Metadata Squad | Corporate data and payee/metadata repos | Repo ownership blocks and event contracts are aligned to the new repo names. |
+| Split open data repos | Open Data Squad | Product catalog and ATM directory repos | Each repo has a README, CODEOWNERS, and contract inventory entry. |
 
-## Phase 1: Analysis & Governance (Current State & Guardrails)
+## Workstream D: Lending And Payments Repo Split
 
-*Goal: Audit the existing codebase/documentation and codify the NFRs into automated checks.*
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Split loan lifecycle repo | Loan Lifecycle Squad | Loan repo | Loan state, schedule, and servicing ownership are explicitly documented. |
+| Split payment initiation and settlement repo | Payment Orchestration Squad | Payment initiation repo | Payment orchestration and settlement contracts are mapped to the repo. |
+| Split recurring, bulk, and request-to-pay repos | Recurring and Bulk Payments Squad | Three payment repos | Each payment capability has its own repository and ownership block. |
 
-### 1.1 Repository & Architecture Audit
+## Workstream E: Customer, Risk, And Compliance
 
-- [ ] Analyze Current Repo Structure: review the existing monolithic repository or documentation store. Identify tightly coupled components (e.g., shared database models between Payment and Account domains) that must be decoupled.
-- [ ] Catalog Existing Assets: list all current API contracts (Swagger/OpenAPI), shared libraries, and utility classes.
-- [ ] Dependency Graphing: map dependencies between use cases (e.g., does Payment Initiation rely on Account Information DB tables?).
-- [ ] Debt Identification: tag any code violating share‑nothing architecture (e.g., direct DB access across domains).
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Split customer profile and KYC repo | Customer and KYC Squad | Customer repo | Customer ownership, identity dependencies, and release cadence are documented. |
+| Split risk repo | Risk and Compliance Decisioning Squad | Risk repo | Risk inputs and outputs are tied to explicit event contracts and data ownership. |
+| Split compliance evidence repo | Risk and Compliance Decisioning Squad | Compliance repo | Audit evidence ownership and evidence lifecycle are described. |
 
-### 1.2 Guardrail Analysis & Codification
+## Workstream F: Contract And Governance Repos
 
-- [ ] Security Guardrails Review:
-- [ ] Verify FAPI Compliance requirements (mTLS enforcement, detached JWS signatures, JWT validation, scope checks).
-- [ ] Enforce `DPoP` as mandatory in protected API contracts and runtime security chain.
-- [ ] Define PII Masking rules (log masking for IBAN, names).
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Bootstrap OpenAPI catalog repo | API Governance Guild | OpenAPI catalog repo | OpenAPI lint, versioning, and compatibility checks are documented and enforceable. |
+| Bootstrap AsyncAPI catalog repo | API Governance Guild | AsyncAPI catalog repo | AsyncAPI naming, topic structure, and schema versioning are documented. |
+| Bootstrap schema registry repo | API Governance Guild | Schema registry repo | Schema lifecycle and compatibility policy are published. |
+| Bootstrap architecture runbooks repo | Architecture Board | ADR and runbooks repo | Architecture decisions, guardrails, and exception handling are in one controlled repo. |
 
-- [ ] Performance Guardrails Review:
-- [ ] Confirm SLA targets (500ms TTLB for APIs, 250ms for LFI backend).
-- [ ] Define Rate Limiting policies per TPP.
+## Workstream G: Cutover And Governance
 
-- [ ] Linting & Quality Gate Definition:
-- [ ] Create a ruleset for static code analysis (SonarQube) to enforce hexagonal architecture (domain layer must not import infrastructure).
-- [ ] Define minimum code coverage (target: 85%).
-- [ ] Add OpenAPI contract drift gate in CI (fail on spec/implementation mismatch).
+| Task | Primary Owner | Output | Done When |
+| --- | --- | --- | --- |
+| Publish execution status and next steps | Architecture Enablement Squad | Execution summary | Completed, In Progress, and Next actions are recorded in a dedicated project-management doc. |
+| Normalize backlog language | Architecture Enablement Squad | Backlog docs | Legacy team-oriented language is replaced with Primary Owner terminology. |
+| Validate publication guardrails | DevSecOps Enablement Squad | Guardrail checks | Docs contain no local paths, personal identifiers, or secret material. |
 
----
+## Exit Criteria
 
-## Phase 2: Microservice Creation (Per Use Case)
-
-*Goal: Create isolated, deployable repositories for each Use Case, strictly following TDD & DDD.*
-
-### 2.1 Repository Setup (Template Strategy)
-
-- [ ] Create Microservice Template Repo: build a golden template repository containing:
-- [ ] Folder Structure: `domain`, `application`, `infrastructure`, `tests`.
-- [ ] Dockerfile: multi‑stage build optimized for production (distroless/alpine).
-- [ ] Pre‑commit Hooks: husky/githooks for linting and unit test execution.
-- [ ] Helm Chart: base template for Kubernetes deployment.
-
-- [ ] Initialize Use Case Repos: fork the template for each targeted use case:
-- [ ] `repo-account-information-service`
-- [ ] `repo-payment-initiation-service`
-- [ ] `repo-confirmation-of-payee-service`
-
-### 2.2 Domain Implementation (Iterative per Repo)
-
-- [ ] Domain Modeling (DDD):
-- [ ] Implement aggregates and entities (e.g., `PaymentConsent`, `AccountStatement`) with pure logic.
-- [ ] Implement value objects (e.g., `Money`, `IBAN`) with validation rules.
-
-- [ ] TDD - Unit Testing:
-- [ ] Write failing tests for domain logic (business rules).
-- [ ] Implement logic to pass tests (red‑green‑refactor).
-
-- [ ] Ports Definition:
-- [ ] Define input ports (use case interfaces).
-- [ ] Define output ports (repository interfaces, external service interfaces).
-
-### 2.3 Adapter Implementation (Hexagonal)
-
-- [ ] Infrastructure Adapters:
-- [ ] Implement persistence adapter (MongoDB/PostgreSQL) with 3NF/document design.
-- [ ] Implement external adapter (core banking connector) with circuit breakers.
-- [ ] Replace all production-wired in-memory seeded adapters with persistent adapters; keep in-memory adapters test-only.
-
-- [ ] API Adapter (Web):
-- [ ] Implement REST controllers matching the OpenAPI specification.
-- [ ] Implement idempotency shim (Redis check for `x-idempotency-key`).
-- [ ] Implement exception handling (map domain errors to standard HTTP 4xx/5xx responses).
-- [ ] Resolve Corporate AIS endpoint/path drift between OpenAPI and controller mappings.
-- [ ] Enforce mandatory `DPoP` request handling (`required: true` in spec for protected APIs).
-- [ ] Implement distributed ETag/state cache with TTL and bounded key space (no unbounded local maps).
-- [ ] Strengthen ETag hashing input to include all response-significant fields.
-
-### 2.4 Configuration & 12‑Factor
-
-- [ ] Externalize Config: replace hardcoded values with environment variables (`DB_HOST`, `REDIS_URL`, `IDP_URL`).
-- [ ] Secret Management: integrate with Vault/Secrets Manager (do not commit secrets).
-- [x] Enforce "no real secrets in `.env`/source" policy and runtime provisioning path (`POST /internal/v1/system/secrets`).
-
----
-
-## Phase 3: Pipelines & Automation (CI/CD)
-
-*Goal: Automate the path from `git push` to Production deployment.*
-
-### 3.1 Continuous Integration (CI) Pipeline
-
-*Trigger: Pull Request or Push to Branch*
-
-- [ ] Lint & Format Job:
-- [ ] Run linter (ESLint/Checkstyle).
-- [ ] Check commit message convention (Conventional Commits).
-
-- [ ] Test & Coverage Job:
-- [ ] Run unit tests.
-- [ ] Run integration tests (with ephemeral DB containers).
-- [ ] Re-enable real security filter chain in integration tests (no `addFilters=false` bypass for protected APIs).
-- [ ] Generate coverage report. Fail pipeline if coverage < 85%.
-
-- [ ] Security Scan Job:
-- [ ] SAST: scan source code for vulnerabilities (SonarQube/Snyk).
-- [ ] Dependency Check: scan libraries for CVEs (OWASP Dependency Check).
-- [ ] Secret Detection: scan git history for leaked credentials (TruffleHog).
-
-- [ ] Build & Publish Job:
-- [ ] Build Docker image.
-- [ ] Sign image (Cosign/Notary) for supply chain security.
-- [ ] Push to container registry with immutable tags (e.g., `sha-xyz`).
-
-### 3.2 Continuous Deployment (CD) Pipeline
-
-*Trigger: Merge to Main / Release Tag*
-
-- [ ] Infrastructure as Code (IaC) Provisioning:
-- [ ] Terraform/Crossplane to provision RDS, ElastiCache (Redis), and IAM roles per microservice.
-- [ ] Replace output-only Terraform module stubs with provider-backed resources (network, security, compute, data, observability).
-
-- [ ] Deployment Strategy:
-- [ ] Deploy Helm chart to dev/staging namespace.
-- [ ] Run smoke tests (health check endpoint).
-
-- [ ] E2E Testing Job:
-- [ ] Run Postman/Newman collection against staging.
-- [ ] Verify happy paths (payment success) and negative paths (idempotency check).
-
-- [ ] Production Promotion:
-- [ ] Manual approval gate for production.
-- [ ] Blue/green or canary deployment rollout strategy.
-
-### 3.3 Observability Automation
-
-- [ ] Dashboard Provisioning: auto‑create Grafana dashboards for each microservice (latency, traffic, errors, saturation).
-- [ ] Alerting Rules: auto‑configure Prometheus alerts (e.g., error rate > 1%).
-- [ ] Log Aggregation: ensure JSON logs shipped to ELK/Splunk with PII masking active.
-- [ ] Tracing Baseline: propagate and log trace id with `X-FAPI-Interaction-ID` correlation.
-- [ ] Metrics Baseline: expose request latency, throughput, cache hit ratio, and error counters per endpoint.
-
----
-
-## Mandatory Priority Fixes (Immediate Backlog)
-
-- [ ] Corporate AIS OpenAPI vs implementation reconciliation:
-- [ ] Align `/accounts`, `/balances`, `/transactions`, `/scheduled-payments`, `/parties` paths to final contract.
-- [ ] Align controller mappings and generated links to same base path.
-- [ ] Set `DPoP` to required in business financial data OpenAPI for protected operations.
-
-- [ ] Corporate AIS production-readiness:
-- [x] Replace `InMemoryCorporateConsentAdapter` runtime usage with persistent adapter.
-- [x] Replace `InMemoryCorporateAccountReadAdapter` runtime usage with persistent adapter.
-- [x] Move controller ETag map to Redis-backed TTL cache.
-- [x] Improve ETag signature generation to include full response-significant payload.
-
-- [ ] Cross-service baseline upgrades:
-- [ ] Add security starter and enforce in integration tests.
-- [ ] Add observability starter (trace/metrics/logging).
-- [x] Add internal runtime secrets API with masked/hash-at-rest persistence and metadata-only retrieval.
-- [x] Replace Jenkins/GitLab placeholder steps with runnable gates.
-- [x] Replace Terraform output-only module with real provider resources.
+1. Each target repo has a named owner and review cadence.
+2. Each repo has a responsibility block, CODEOWNERS, and guardrail links.
+3. Each doc uses the same ownership vocabulary.
+4. The backlog can be executed without ambiguity about who owns what.
