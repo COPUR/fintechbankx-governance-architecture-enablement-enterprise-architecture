@@ -2,8 +2,8 @@
 
 ## Repository
 
-- Name: \
-- Generated: \
+- Name: fintechbankx-governance-architecture-enablement-enterprise-architecture
+- Generated: 2026-03-24
 
 ## Objective
 
