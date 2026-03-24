@@ -45,3 +45,10 @@ This repository contains:
 - No secret material in source-controlled content
 - Use environment placeholders for operational paths and credentials
 - Do not weaken ownership or contract controls without an ADR and explicit review approval
+
+## Cell-Based Architecture
+
+This repository participates in the FinTechBankX cell-based resilience program.
+
+- Plan: \
+- Backlog: \
